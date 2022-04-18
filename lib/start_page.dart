@@ -15,7 +15,8 @@ class Start extends StatelessWidget {
           body: SafeArea(
             child: StartPage(),
           )
-      )
+      ),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

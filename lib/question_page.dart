@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, avoid_unnecessary_containers, deprecated_member_use
 
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
+import 'package:geeksalonquizapp/result_page.dart';
 
 class Question extends StatefulWidget {
   @override
@@ -24,7 +25,7 @@ class _QuestionState extends State<Question> {
   int questionNumber = 0;
 
   // 正解数の管理
-  int numberOfCorrectAnswer = 0;
+  int numberOfCorrectAnswers = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +56,7 @@ class _QuestionState extends State<Question> {
 
                         // 正解だった場合、正解数に1を足す
                         if (correctAnswer == true) {
-                          numberOfCorrectAnswer++;
+                          numberOfCorrectAnswers++;
                         }
 
                         // 問題番号が問題数未満の場合、問題数に1を足す
@@ -64,7 +65,12 @@ class _QuestionState extends State<Question> {
                             questionNumber++;
                           });
                         } else {
-                          // 結果画面に遷移
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Result(numberOfCorrectAnswers: numberOfCorrectAnswers)
+                              )
+                          );
                         }
                       },
                       child: Text("○", style: TextStyle(fontSize: 20.0)),
@@ -81,7 +87,7 @@ class _QuestionState extends State<Question> {
 
                         // 不正解だった場合、正解数に1を足す
                         if (correctAnswer == false) {
-                          numberOfCorrectAnswer++;
+                          numberOfCorrectAnswers++;
                         }
 
                         // 問題番号が問題数未満の場合、問題数に1を足す
@@ -90,7 +96,12 @@ class _QuestionState extends State<Question> {
                             questionNumber++;
                           });
                         } else {
-                          // 結果画面に遷移
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Result(numberOfCorrectAnswers: numberOfCorrectAnswers)
+                              )
+                          );
                         }
                       },
                       child: Text("×", style: TextStyle(fontSize: 30.0)),

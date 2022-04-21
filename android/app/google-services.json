@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "614289816169",
+    "project_id": "geeksalonquiz-flutter",
+    "storage_bucket": "geeksalonquiz-flutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:614289816169:android:78801f602f29331aaf80f8",
+        "android_client_info": {
+          "package_name": "com.geeksalon.geeksalonquizapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "614289816169-9k8aruil1646mcqjsrtcmng2b3gs0ipg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBdgWdR_zictsxH4-9bfC3A-_UDmJJ5UQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "614289816169-9k8aruil1646mcqjsrtcmng2b3gs0ipg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

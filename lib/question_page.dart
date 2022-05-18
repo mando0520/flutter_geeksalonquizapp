@@ -39,7 +39,7 @@ class _QuestionState extends State<Question> {
   }
 
   // Question情報をFirebaseから取得し、Stateを構築
-  Future<void> getQuestionsFromFirebase(String course) async{
+  Future<void> getQuestionsFromFirebase(String course) async {
     List<String> quiz_s = [];
     List<bool> ans = [];
     List<String> ans_s = [];
@@ -68,7 +68,7 @@ class _QuestionState extends State<Question> {
   @override
   Widget build(BuildContext context) {
     print(quiz_statements);
-    return quiz_statements.length == 1
+    return quiz_statements.isEmpty
         ? CircularProgressIndicator()
         : MaterialApp(
             home: Scaffold(
@@ -96,23 +96,13 @@ class _QuestionState extends State<Question> {
                               bool correctAnswer = answers[questionNumber];
 
                               // 正解だった場合、正解数に1を足す
-                              if (correctAnswer == true) {
+                              if (correctAnswer) {
                                 numberOfCorrectAnswers++;
                               }
 
-                              // 問題番号が問題数未満の場合、問題数に1を足す
-                              if (questionNumber + 1 < quiz_statements.length) {
-                                setState(() {
-                                  questionNumber++;
-                                });
-                              } else {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Result(
-                                            numberOfCorrectAnswers:
-                                                numberOfCorrectAnswers)));
-                              }
+                              // ダイアログを出す
+                              openDialog(context, correctAnswer,
+                                  answer_statements[questionNumber],true);
                             },
                             child: Text("○", style: TextStyle(fontSize: 20.0)),
                             color: Colors.green,
@@ -127,23 +117,13 @@ class _QuestionState extends State<Question> {
                               bool correctAnswer = answers[questionNumber];
 
                               // 不正解だった場合、正解数に1を足す
-                              if (correctAnswer == false) {
+                              if (!correctAnswer) {
                                 numberOfCorrectAnswers++;
                               }
 
-                              // 問題番号が問題数未満の場合、問題数に1を足す
-                              if (questionNumber + 1 < quiz_statements.length) {
-                                setState(() {
-                                  questionNumber++;
-                                });
-                              } else {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Result(
-                                            numberOfCorrectAnswers:
-                                                numberOfCorrectAnswers)));
-                              }
+                              // ダイアログを出す
+                              openDialog(context, correctAnswer,
+                                  answer_statements[questionNumber],false);
                             },
                             child: Text("×", style: TextStyle(fontSize: 30.0)),
                             color: Colors.green,
@@ -153,5 +133,41 @@ class _QuestionState extends State<Question> {
                     ])),
             debugShowCheckedModeBanner: false,
           );
+  }
+
+  void openDialog(BuildContext context, correctAnswer, answer_statement,ans) {
+    var answer_text = "不正解！";
+    if (correctAnswer == ans) {
+      answer_text = "正解！";
+    }
+
+    showDialog(
+      context: context,
+      // ignore: unnecessary_new
+      builder: (BuildContext context) => new SimpleDialog(
+        title: new Text(answer_text),
+        children: <Widget>[
+          Text(answer_statement),
+          SimpleDialogOption(
+              onPressed: () {
+                Navigator.pop(context);
+
+                // 問題番号が問題数未満の場合、問題数に1を足す
+                if (questionNumber + 1 < quiz_statements.length) {
+                  setState(() {
+                    questionNumber++;
+                  });
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Result(
+                        numberOfCorrectAnswers: numberOfCorrectAnswers)));
+                }
+              },
+              child: Text("Continue"))
+        ],
+      ),
+    );
   }
 }

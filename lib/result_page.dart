@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:geeksalonquizapp/start_page.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class Result extends StatelessWidget {
+  AudioCache _player = AudioCache();
   final int numberOfCorrectAnswers;
 
   Result({required this.numberOfCorrectAnswers});
@@ -42,6 +44,7 @@ class Result extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _player.play('sounds/kekka.mp3');
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(backgroundColor: Colors.orange),

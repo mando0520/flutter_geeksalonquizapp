@@ -5,6 +5,7 @@ import 'package:geeksalonquizapp/start_page.dart';
 // import 'package:flutter/rendering.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,8 +14,11 @@ Future<void> main() async {
 }
 
 class Root extends StatelessWidget {
+  AudioCache _player = AudioCache();
+
   @override
   Widget build(BuildContext context) {
+    _player.loop('sounds/main_lovelyflower.mp3',volume: 0.3);
     return Start();
   }
 }

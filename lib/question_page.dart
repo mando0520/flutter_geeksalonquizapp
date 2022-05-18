@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geeksalonquizapp/result_page.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 // Questionクラス内で、firebaseから情報取ってきて、各変数に入れられればOK
 
@@ -16,6 +17,8 @@ class Question extends StatefulWidget {
 }
 
 class _QuestionState extends State<Question> {
+  AudioCache _player = AudioCache();
+
   // 問題番号の管理
   int questionNumber = 0;
 
@@ -96,13 +99,17 @@ class _QuestionState extends State<Question> {
                               bool correctAnswer = answers[questionNumber];
 
                               // 正解だった場合、正解数に1を足す
+                              // 音を鳴らす
                               if (correctAnswer) {
                                 numberOfCorrectAnswers++;
+                                _player.play('sounds/correct_buzzer.mp3');
+                              } else {
+                                _player.play('sounds/wrong_buzzer.mp3');
                               }
 
                               // ダイアログを出す
                               openDialog(context, correctAnswer,
-                                  answer_statements[questionNumber],true);
+                                  answer_statements[questionNumber], true);
                             },
                             child: Text("○", style: TextStyle(fontSize: 20.0)),
                             color: Colors.green,
@@ -117,13 +124,18 @@ class _QuestionState extends State<Question> {
                               bool correctAnswer = answers[questionNumber];
 
                               // 不正解だった場合、正解数に1を足す
+                              // 音を鳴らす
                               if (!correctAnswer) {
                                 numberOfCorrectAnswers++;
+                                _player.play('sounds/correct_buzzer.mp3');
+                              } else {
+                                _player.play('sounds/wrong_buzzer.mp3');
                               }
+                              
 
                               // ダイアログを出す
                               openDialog(context, correctAnswer,
-                                  answer_statements[questionNumber],false);
+                                  answer_statements[questionNumber], false);
                             },
                             child: Text("×", style: TextStyle(fontSize: 30.0)),
                             color: Colors.green,
@@ -135,7 +147,7 @@ class _QuestionState extends State<Question> {
           );
   }
 
-  void openDialog(BuildContext context, correctAnswer, answer_statement,ans) {
+  void openDialog(BuildContext context, correctAnswer, answer_statement, ans) {
     var answer_text = "不正解！";
     if (correctAnswer == ans) {
       answer_text = "正解！";
@@ -159,10 +171,10 @@ class _QuestionState extends State<Question> {
                   });
                 } else {
                   Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Result(
-                        numberOfCorrectAnswers: numberOfCorrectAnswers)));
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Result(
+                              numberOfCorrectAnswers: numberOfCorrectAnswers)));
                 }
               },
               child: Text("Continue"))

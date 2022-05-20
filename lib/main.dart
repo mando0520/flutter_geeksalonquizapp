@@ -18,7 +18,7 @@ class Root extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _player.loop('sounds/main_lovelyflower.mp3',volume: 0.3);
+    // _player.loop('sounds/main_lovelyflower.mp3',volume: 0.3);
     return Start();
   }
 }

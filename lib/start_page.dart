@@ -48,7 +48,7 @@ class _StartPageState extends State<StartPage> {
               style: TextStyle(
                 fontSize: 40.0,
                 fontWeight: FontWeight.bold,
-                color: Colors.green)
+                color: Colors.black)
             ),
           RaisedButton(
             onPressed: () {

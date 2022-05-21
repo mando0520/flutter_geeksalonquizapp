@@ -72,29 +72,41 @@ class _QuestionState extends State<Question> {
   Widget build(BuildContext context) {
     print(quiz_statements);
     return quiz_statements.isEmpty
-        ? CircularProgressIndicator()
-        : MaterialApp(
-            home: Scaffold(
-                appBar: AppBar(backgroundColor: Colors.orange),
-                // backgroundColor: Colors.white,
-                body: Column(
+    ? CircularProgressIndicator()
+    : MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: "GeekSalonQuiz",
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
+      ),
+        home: Scaffold(
+          body: Padding(
+            padding: EdgeInsets.only(top: 30, bottom: 30),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset('assets/images/top.png',height: 200),
+                Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Text(
+                      quiz_statements[questionNumber],
+                      style: TextStyle(
+                        fontSize: 22.0,
+                      ),
+                    )
+                  )
+                ),
+
+                Expanded(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Expanded(
-                          flex: 4,
-                          child: Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Text(
-                                quiz_statements[questionNumber],
-                                style: TextStyle(
-                                  fontSize: 30.0,
-                                ),
-                              ))),
-                      Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: RaisedButton(
+                      ButtonTheme(
+                          minWidth: 120.0,
+                          height: 120.0,
+                          child:  RaisedButton(
                             onPressed: () {
                               bool correctAnswer = answers[questionNumber];
 
@@ -111,40 +123,56 @@ class _QuestionState extends State<Question> {
                               openDialog(context, correctAnswer,
                                   answer_statements[questionNumber], true);
                             },
-                            child: Text("○", style: TextStyle(fontSize: 20.0)),
-                            color: Colors.green,
+                            child: Text("○", style: TextStyle(
+                              fontSize: 70.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              )
+                            ),
+                            color: Colors.red.withOpacity(0.8),
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0))),
-                      )),
-                      Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.all(15.0),
+                                borderRadius: BorderRadius.circular(30.0))
+                          ),
+                        ),
+                        ButtonTheme(
+                        minWidth: 120.0,
+                        height: 120.0,
                         child: RaisedButton(
-                            onPressed: () {
-                              bool correctAnswer = answers[questionNumber];
+                          onPressed: () {
+                            bool correctAnswer = answers[questionNumber];
 
-                              // 不正解だった場合、正解数に1を足す
-                              // 音を鳴らす
-                              if (!correctAnswer) {
-                                numberOfCorrectAnswers++;
-                                _player.play('sounds/correct_buzzer.mp3');
-                              } else {
-                                _player.play('sounds/wrong_buzzer.mp3');
-                              }
-                              
-
-                              // ダイアログを出す
-                              openDialog(context, correctAnswer,
-                                  answer_statements[questionNumber], false);
-                            },
-                            child: Text("×", style: TextStyle(fontSize: 30.0)),
-                            color: Colors.green,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0))),
-                      ))
-                    ])),
-            debugShowCheckedModeBanner: false,
-          );
+                            // 不正解だった場合、正解数に1を足す
+                            // 音を鳴らす
+                            if (!correctAnswer) {
+                              numberOfCorrectAnswers++;
+                              _player.play('sounds/correct_buzzer.mp3');
+                            } else {
+                              _player.play('sounds/wrong_buzzer.mp3');
+                            }
+                            
+                            // ダイアログを出す
+                            openDialog(context, correctAnswer,
+                                answer_statements[questionNumber], false);
+                          },
+                          child: Text("✕", style: TextStyle(
+                            fontSize: 70.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            )
+                          ),
+                          color: Colors.blue.withOpacity(0.8),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0))
+                          )
+                        )
+                    ]
+                  )
+                )
+              ]      
+            )
+        ),
+      )
+    );
   }
 
   void openDialog(BuildContext context, correctAnswer, answer_statement, ans) {

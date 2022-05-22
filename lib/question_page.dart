@@ -71,7 +71,7 @@ class _QuestionState extends State<Question> {
   @override
   Widget build(BuildContext context) {
     print(quiz_statements);
-    return quiz_statements.isEmpty
+    return quiz_statements.length == 1
         ? CircularProgressIndicator()
         : MaterialApp(
             debugShowCheckedModeBanner: false,
@@ -228,7 +228,7 @@ class _QuestionState extends State<Question> {
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   )),
-              color: Color.fromARGB(255, 58, 255, 64),
+              color: Colors.green,
               shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.circular(20.0))),

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:geeksalonquizapp/start_page.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -12,7 +14,7 @@ class Result extends StatelessWidget {
     if (numberOfCorrectAnswers < 3) {
       return Center(
         child: Text(
-          "もっと勉強しよう", 
+          "もっと勉強しよう！(^^)/", 
           style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 20
@@ -22,7 +24,7 @@ class Result extends StatelessWidget {
     } else if (numberOfCorrectAnswers < 5) {
       return Center(
         child: Text(
-          "惜しい！", 
+          "もう少し！(^^)/", 
           style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 20
@@ -32,7 +34,7 @@ class Result extends StatelessWidget {
     } else {
       return Center(
         child: Text(
-          "素晴らしい！", 
+          "よく頑張った！(^^)/", 
           style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 20
@@ -42,56 +44,85 @@ class Result extends StatelessWidget {
     }
   }
 
+  final highlightStyle = TextStyle(
+    color: Colors.red,
+    fontSize: 30.0,
+    fontWeight: FontWeight.bold
+  );
+
+  final basicStyle = TextStyle(
+    color: Colors.black,
+    fontSize: 30.0,
+    fontWeight: FontWeight.bold
+  );
+
   @override
   Widget build(BuildContext context) {
     _player.play('sounds/kekka.mp3');
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: "GeekSalonQuiz",
+        theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
+        ),
       home: Scaffold(
-          appBar: AppBar(backgroundColor: Colors.orange),
+          backgroundColor: Colors.white,
           body: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Image.asset('assets/images/top.png',height: 200),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.only(top: 30,bottom: 10),
                 child: Center(
-                  child: Text(
-                    "5問中$numberOfCorrectAnswers問正解です", 
-                    style: TextStyle(
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold
-                      )
+                  child: RichText(
+                    text: TextSpan(
+                      children:[
+                        TextSpan(text: "5問中", style: basicStyle),
+                        TextSpan(text: numberOfCorrectAnswers.toString(),style: highlightStyle),
+                        TextSpan(text: "問正解！",style: basicStyle)
+                      ],
+                      
+                    )
                   )
                 )
               ),
-              resultWords(),
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 50.0,
-                  vertical: 20.0
+                padding: EdgeInsets.only(bottom: 60),
+                child: Center(
+                  child: resultWords()
+                )
                 ),
-                child: RaisedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Start()
+                ButtonTheme(
+                  minWidth: 180.0,
+                  height: 50.0,
+                  child: Center( 
+                    child: RaisedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Start()
+                          )
+                        );
+                      }, 
+                    child: Text(
+                      "はじめに戻る",
+                      style: TextStyle( 
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       )
-                    );
-                  }, 
-                  child: Text(
-                    "初めに戻る",
-                    style: TextStyle( 
-                      fontSize: 20.0
-                    )
-                  ),
+                    ),
                   color: Colors.green,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0)
+                    borderRadius: BorderRadius.circular(20.0)
                   )
                 )
+                )
               )
-          ])),
+          ]
+        )
+      ),
     );
   }
 }

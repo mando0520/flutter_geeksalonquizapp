@@ -68,9 +68,41 @@ class _QuestionState extends State<Question> {
     });
   }
 
+  Widget answerButton(bool userAnswer) {
+    return ButtonTheme(
+      minWidth: 120.0,
+      height: 120.0,
+      child: RaisedButton(
+          onPressed: () {
+            bool correctAnswer = answers[questionNumber];
+
+            // 正解だった場合、正解数に1を足す
+            // 音を鳴らす
+            if (userAnswer == correctAnswer) {
+              numberOfCorrectAnswers++;
+              _player.play('sounds/correct_buzzer.mp3');
+            } else {
+              _player.play('sounds/wrong_buzzer.mp3');
+            }
+
+            // ダイアログを出す
+            openDialog(context, correctAnswer,
+                answer_statements[questionNumber], userAnswer);
+          },
+          child: Text(userAnswer ? "○" : "✕",
+              style: TextStyle(
+                fontSize: 70.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              )),
+          color: userAnswer ? Colors.red.withOpacity(0.8) : Colors.blue.withOpacity(0.8),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0))),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    print(quiz_statements);
     return quiz_statements.length == 1
         ? CircularProgressIndicator()
         : MaterialApp(
@@ -93,7 +125,7 @@ class _QuestionState extends State<Question> {
                                 child: Text(
                                   quiz_statements[questionNumber],
                                   style: TextStyle(
-                                    fontSize: 22.0,
+                                    fontSize: 18.0,
                                   ),
                                 ))),
                         Expanded(
@@ -101,78 +133,8 @@ class _QuestionState extends State<Question> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                              ButtonTheme(
-                                minWidth: 120.0,
-                                height: 120.0,
-                                child: RaisedButton(
-                                    onPressed: () {
-                                      bool correctAnswer =
-                                          answers[questionNumber];
-
-                                      // 正解だった場合、正解数に1を足す
-                                      // 音を鳴らす
-                                      if (correctAnswer) {
-                                        numberOfCorrectAnswers++;
-                                        _player
-                                            .play('sounds/correct_buzzer.mp3');
-                                      } else {
-                                        _player.play('sounds/wrong_buzzer.mp3');
-                                      }
-
-                                      // ダイアログを出す
-                                      openDialog(
-                                          context,
-                                          correctAnswer,
-                                          answer_statements[questionNumber],
-                                          true);
-                                    },
-                                    child: Text("○",
-                                        style: TextStyle(
-                                          fontSize: 70.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                        )),
-                                    color: Colors.red.withOpacity(0.8),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30.0))),
-                              ),
-                              ButtonTheme(
-                                  minWidth: 120.0,
-                                  height: 120.0,
-                                  child: RaisedButton(
-                                      onPressed: () {
-                                        bool correctAnswer =
-                                            answers[questionNumber];
-
-                                        // 不正解だった場合、正解数に1を足す
-                                        // 音を鳴らす
-                                        if (!correctAnswer) {
-                                          numberOfCorrectAnswers++;
-                                          _player.play(
-                                              'sounds/correct_buzzer.mp3');
-                                        } else {
-                                          _player
-                                              .play('sounds/wrong_buzzer.mp3');
-                                        }
-
-                                        // ダイアログを出す
-                                        openDialog(
-                                            context,
-                                            correctAnswer,
-                                            answer_statements[questionNumber],
-                                            false);
-                                      },
-                                      child: Text("✕",
-                                          style: TextStyle(
-                                            fontSize: 70.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                          )),
-                                      color: Colors.blue.withOpacity(0.8),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30.0))))
+                                  answerButton(true),
+                                  answerButton(false),
                             ]))
                       ])),
             ));
@@ -188,8 +150,8 @@ class _QuestionState extends State<Question> {
 
     showDialog(
       context: context,
-      // ignore: unnecessary_new
-      builder: (BuildContext context) => new AlertDialog(
+      
+      builder: (BuildContext context) => AlertDialog(
         title: Text(
           answer_text,
           style: TextStyle(
@@ -199,41 +161,39 @@ class _QuestionState extends State<Question> {
           textAlign: TextAlign.center,
         ),
         content: Text(answer_statement),
-        
         actions: <Widget>[
           ButtonTheme(
-            minWidth: 60.0,
-            height: 35.0,
-            child: Center(child: 
-            RaisedButton(
-              onPressed: () {
-                Navigator.pop(context);
+              minWidth: 60.0,
+              height: 35.0,
+              child: Center(
+                child: RaisedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
 
-                  // 問題番号が問題数未満の場合、問題数に1を足す
-                  if (questionNumber + 1 < quiz_statements.length) {
-                    setState(() {
-                      questionNumber++;
-                    });
-                  } else {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Result(
-                          numberOfCorrectAnswers: numberOfCorrectAnswers)));
-                  }
-                },
-              child: Text("Continue",
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  )),
-              color: Colors.green,
-              shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(20.0))),
-            )
-          )
+                      // 問題番号が問題数未満の場合、問題数に1を足す
+                      if (questionNumber + 1 < quiz_statements.length) {
+                        setState(() {
+                          questionNumber++;
+                        });
+                      } else {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Result(
+                                    numberOfCorrectAnswers:
+                                        numberOfCorrectAnswers)));
+                      }
+                    },
+                    child: Text("Continue",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        )),
+                    color: Colors.green,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0))),
+              ))
         ],
       ),
     );

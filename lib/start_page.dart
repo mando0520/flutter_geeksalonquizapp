@@ -19,13 +19,11 @@ class Start extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('assets/images/top.png',height: 200),
-              Expanded(
-                child: StartPage()
-              )
+              Image.asset('assets/images/top.png', height: 200),
+              Expanded(child: StartPage())
             ],
           ),
-        ) ,    
+        ),
       ),
     );
   }
@@ -37,103 +35,47 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
+
+  Widget courseButton(String course, color) {
+    return ButtonTheme(
+        minWidth: 250.0,
+        height: 50.0,
+        child: Center(
+          child: RaisedButton(
+            onPressed: () {
+              Navigator.push(
+                this.context,
+                MaterialPageRoute(
+                    builder: (context) => Question(course: course)),
+              );
+            },
+            child: Text(course,
+                style: TextStyle(fontSize: 30.0, color: Colors.white)),
+            color: color.withOpacity(0.8),
+            elevation: 15.0,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0)
+            )
+          )
+        )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-            Text(
-              "GeekSalonクイズ", 
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+          Text("GeekSalonクイズ",
               style: TextStyle(
-                fontSize: 40.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.black)
-            ),
-          RaisedButton(
-            onPressed: () {
-              Navigator.push(
-                this.context,
-                MaterialPageRoute(
-                  builder: (context) => Question(course:"Web")
-                ),
-              );
-            },
-            child: Text(
-              "Web", 
-              style: TextStyle(
-                fontSize: 30.0,
-                color: Colors.white
-              )
-            ),
-            color: Colors.red.withOpacity(0.8),
-            elevation: 15.0,
-            padding: EdgeInsets.symmetric(
-              vertical: 15.0, 
-              horizontal: 100.0
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(
-                15.0
-              )
-            )
+                  fontSize: 40.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black)
           ),
-          RaisedButton(
-            onPressed: () {
-              Navigator.push(
-                this.context,
-                MaterialPageRoute(
-                  builder: (context) => Question(course:"iPhone")
-                ),
-              );
-            },
-            child: Text(
-              "iPhone", 
-              style: TextStyle(
-                fontSize: 30.0,
-                color: Colors.white
-              )
-            ),
-            color: Colors.orange.withOpacity(0.8),
-            elevation: 15.0,
-            padding: EdgeInsets.symmetric(
-              vertical: 15.0, 
-              horizontal: 100.0
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(
-                15.0
-              )
-            )
-          ),
-          RaisedButton(
-            onPressed: () {
-              Navigator.push(
-                this.context,
-                MaterialPageRoute(
-                  builder: (context) => Question(course:"Game")
-                ),
-              );
-            },
-            child: Text(
-              "Game", 
-              style: TextStyle(
-                fontSize: 30.0,
-                color: Colors.white
-              )
-            ),
-            color: Colors.blue.withOpacity(0.8),
-            elevation: 15.0,
-            padding: EdgeInsets.symmetric(
-              vertical: 15.0, 
-              horizontal: 100.0
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(
-                15.0
-              )
-            )
-          ),
+          courseButton("Web", Colors.red),
+          courseButton("iPhone", Colors.orange),
+          courseButton("Game", Colors.blue)
         ]
       )
     );

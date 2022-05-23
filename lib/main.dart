@@ -14,7 +14,7 @@ Future<void> main() async {
 }
 
 class Root extends StatelessWidget {
-  AudioCache _player = AudioCache();
+  // AudioCache _player = AudioCache();
 
   @override
   Widget build(BuildContext context) {

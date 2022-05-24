@@ -41,11 +41,17 @@ class _QuestionState extends State<Question> {
     getQuestionsFromFirebase(course);
   }
 
-  // Question情報をFirebaseから取得し、Stateを構築
+  // Question情報をFirebaseから取得し、シャッフルしてStateを構築
   Future<void> getQuestionsFromFirebase(String course) async {
     List<String> quiz_s = [];
     List<bool> ans = [];
     List<String> ans_s = [];
+
+    List<String> quiz_s_shuffled = [];
+    List<bool> ans_shuffled = [];
+    List<String> ans_s_shuffled = [];
+
+    List<int> map = [0, 1, 2, 3, 4];
 
     CollectionReference questions =
         FirebaseFirestore.instance.collection('questions');
@@ -61,10 +67,18 @@ class _QuestionState extends State<Question> {
       });
     });
 
+    map.shuffle();
+
+    for (var i = 0; i < 5; i++) {
+      quiz_s_shuffled.add(quiz_s[map[i]]);
+      ans_shuffled.add(ans[map[i]]);
+      ans_s_shuffled.add(ans_s[map[i]]);
+    }
+
     setState(() {
-      quiz_statements = quiz_s;
-      answers = ans;
-      answer_statements = ans_s;
+      quiz_statements = quiz_s_shuffled;
+      answers = ans_shuffled;
+      answer_statements = ans_s_shuffled;
     });
   }
 
@@ -95,7 +109,9 @@ class _QuestionState extends State<Question> {
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               )),
-          color: userAnswer ? Colors.red.withOpacity(0.8) : Colors.blue.withOpacity(0.8),
+          color: userAnswer
+              ? Colors.red.withOpacity(0.8)
+              : Colors.blue.withOpacity(0.8),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0))),
     );
@@ -103,6 +119,8 @@ class _QuestionState extends State<Question> {
 
   @override
   Widget build(BuildContext context) {
+    print(quiz_statements);
+    print(answer_statements);
     return quiz_statements.length == 1
         ? CircularProgressIndicator()
         : MaterialApp(
@@ -133,8 +151,8 @@ class _QuestionState extends State<Question> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  answerButton(true),
-                                  answerButton(false),
+                              answerButton(true),
+                              answerButton(false),
                             ]))
                       ])),
             ));
@@ -150,7 +168,6 @@ class _QuestionState extends State<Question> {
 
     showDialog(
       context: context,
-      
       builder: (BuildContext context) => AlertDialog(
         title: Text(
           answer_text,

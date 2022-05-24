@@ -32,6 +32,7 @@ dependencies:
   firebase_core: ^1.14.1
   cloud_firestore: ^3.1.12
   audioplayers: ^0.20.1
+  flutter_launcher_icons: ^0.9.2
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -62,6 +63,11 @@ flutter:
   assets:
     - assets/sounds/
     - assets/images/top.png
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/icon.png"
 
   # To add assets to your application, add an assets section, like this:
   # assets:

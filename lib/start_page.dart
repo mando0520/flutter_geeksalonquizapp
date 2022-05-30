@@ -65,11 +65,17 @@ class _StartPageState extends State<StartPage> {
   Widget build(BuildContext context) {
     return Center(
         child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
           Text("GeekSalonクイズ",
               style: TextStyle(
                   fontSize: 40.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black)
+          ),
+          Text("ランダム5問",
+              style: TextStyle(
+                  fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                   color: Colors.black)
           ),

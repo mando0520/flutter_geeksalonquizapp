@@ -15,7 +15,7 @@ class Start extends StatelessWidget {
       home: Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
-          padding: EdgeInsets.only(top: 30, bottom: 30),
+          padding: EdgeInsets.only(top: 60, bottom: 30),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

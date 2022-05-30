@@ -131,7 +131,7 @@ class _QuestionState extends State<Question> {
             ),
             home: Scaffold(
               body: Padding(
-                  padding: EdgeInsets.only(top: 30, bottom: 30),
+                  padding: EdgeInsets.only(top: 60, bottom: 30),
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -143,7 +143,7 @@ class _QuestionState extends State<Question> {
                                 child: Text(
                                   quiz_statements[questionNumber],
                                   style: TextStyle(
-                                    fontSize: 18.0,
+                                    fontSize: 16.0,
                                   ),
                                 ))),
                         Expanded(
@@ -167,52 +167,56 @@ class _QuestionState extends State<Question> {
     }
 
     showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: Text(
-          answer_text,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: ans_color,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        content: Text(answer_statement),
-        actions: <Widget>[
-          ButtonTheme(
-              minWidth: 60.0,
-              height: 35.0,
-              child: Center(
-                child: RaisedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
+        context: context,
+        builder: (BuildContext context) {
+          return WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(
+                  answer_text,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: ans_color,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                content: Text(answer_statement),
+                actions: <Widget>[
+                  ButtonTheme(
+                      minWidth: 60.0,
+                      height: 35.0,
+                      child: Center(
+                        child: RaisedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
 
-                      // 問題番号が問題数未満の場合、問題数に1を足す
-                      if (questionNumber + 1 < quiz_statements.length) {
-                        setState(() {
-                          questionNumber++;
-                        });
-                      } else {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Result(
-                                    numberOfCorrectAnswers:
-                                        numberOfCorrectAnswers)));
-                      }
-                    },
-                    child: Text("Continue",
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        )),
-                    color: Colors.green,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0))),
-              ))
-        ],
-      ),
-    );
+                              // 問題番号が問題数未満の場合、問題数に1を足す
+                              if (questionNumber + 1 < quiz_statements.length) {
+                                setState(() {
+                                  questionNumber++;
+                                });
+                              } else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Result(
+                                            numberOfCorrectAnswers:
+                                                numberOfCorrectAnswers)));
+                              }
+                            },
+                            child: Text("Continue",
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                )),
+                            color: Colors.green,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0))),
+                      ))
+                ],
+              )
+            );
+        });
   }
 }

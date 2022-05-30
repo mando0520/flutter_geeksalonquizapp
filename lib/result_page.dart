@@ -46,7 +46,7 @@ class Result extends StatelessWidget {
           body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Image.asset('assets/images/top.png', height: 200),
             Padding(
-                padding: EdgeInsets.only(top: 30, bottom: 10),
+                padding: EdgeInsets.only(top: 60, bottom: 10),
                 child: Center(
                     child: RichText(
                         text: TextSpan(

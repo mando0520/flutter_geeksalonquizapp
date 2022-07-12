@@ -1,6 +1,8 @@
 # geeksalonquizapp
 GeekSalonの〇×クイズアプリ
 
+URL : https://play.google.com/store/apps/details?id=com.geeksalon.geeksalonquizapp
+
 # Requirement
 * Dart 2.16.2
 * Flutter 2.10.4
